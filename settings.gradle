@@ -1,0 +1,5 @@
+rootProject.name = 'keumbang'
+include 'auth-server'
+include 'resource-server'
+include 'core'
+

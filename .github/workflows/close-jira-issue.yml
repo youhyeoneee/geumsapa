@@ -1,4 +1,5 @@
 name: Close Jira issue
+
 on:
   issues:
     types:
@@ -24,9 +25,14 @@ jobs:
           JIRA_KEY=$(echo "$ISSUE_TITLE" | grep -oE '[A-Z]+-[0-9]+')
           echo "JIRA_KEY=$JIRA_KEY" >> $GITHUB_ENV
 
+      - name: Debug transition and issue
+        run: |
+          echo "Transition: 31"
+          echo "Issue: ${{ env.JIRA_KEY }}"
+
       - name: Close Jira issue
         if: env.JIRA_KEY != ''
         uses: atlassian/gajira-transition@v3
         with:
           issue: ${{ env.JIRA_KEY }}
-          transition: 31
+          transition: 완료

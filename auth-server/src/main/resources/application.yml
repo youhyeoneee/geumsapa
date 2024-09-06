@@ -1,7 +1,7 @@
 spring:
   # .env import
   config:
-    import: optional:file:./authada-server/.env[.properties]
+    import: optional:file:./auth-server/.env[.properties]
 
   # DB
   datasource:

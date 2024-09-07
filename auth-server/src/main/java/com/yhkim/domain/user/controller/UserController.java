@@ -5,6 +5,7 @@ import com.yhkim.domain.user.dto.SignupUserRequest;
 import com.yhkim.domain.user.dto.SignupUserResponse;
 import com.yhkim.domain.user.service.UserService;
 import com.yhkim.util.ApiUtils;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiUtils.SuccessResponse<SignupUserResponse>> signup(@RequestBody SignupUserRequest signupUserRequest) {
+    public ResponseEntity<ApiUtils.SuccessResponse<SignupUserResponse>> signup(@Valid @RequestBody SignupUserRequest signupUserRequest) {
         return success(HttpStatus.CREATED, "Success to signup", userService.signup(signupUserRequest));
     }
 }

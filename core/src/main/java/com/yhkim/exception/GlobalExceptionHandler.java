@@ -7,19 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.yhkim.util.ApiUtils.error;
+import static com.yhkim.util.ApiUtils.failed;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(value = {CustomException.class})
-	protected ResponseEntity<ApiUtils.ApiError> AhandleCustomException(CustomException ex) {
+    @ExceptionHandler(value = {CustomException.class})
+    public ResponseEntity<ApiUtils.FailedResponse> handleCustomException(CustomException ex) {
 
-		log.error("handleCustomException", ex);
+        log.error("handleCustomException", ex);
 
-		ErrorCode errorCode = ex.getErrorCode();
+        ErrorCode errorCode = ex.getErrorCode();
 
-		return error(errorCode);
-	}
+        return failed(errorCode);
+    }
 }

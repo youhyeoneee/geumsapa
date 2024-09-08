@@ -8,31 +8,41 @@ import org.springframework.http.ResponseEntity;
 
 public class ApiUtils {
 
-	public static <T> ResponseEntity<ApiResult<T>> success(HttpStatus httpStatus, String message, T data) {
-		ApiResult<T> apiResult = new ApiResult<>(true, httpStatus, message, data);
-		return ResponseEntity.status(httpStatus).body(apiResult);
-	}
+    public static <T> ResponseEntity<SuccessResponse<T>> success(HttpStatus httpStatus, String message, T data) {
+        SuccessResponse<T> successResponse = new SuccessResponse<>(httpStatus.value(), message, data);
+        return ResponseEntity.status(httpStatus).body(successResponse);
+    }
 
-	public static ResponseEntity<ApiError> error(ErrorCode errorCode) {
-		ApiError apiError = new ApiError(false, errorCode.getHttpStatus(), errorCode, errorCode.getMessage());
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(apiError);
-	}
+    public static ResponseEntity<FailedResponse> failed(ErrorCode errorCode) {
+        FailedResponse failedResponse = new FailedResponse(errorCode);
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(failedResponse);
+    }
 
-	@Getter
-	@AllArgsConstructor
-	public static class ApiResult<T> {
-		private final boolean success;
-		private final HttpStatus httpStatus;
-		private final String message;
-		private final T data;
-	}
+    @Getter
+    @AllArgsConstructor
+    public static class BasicResponse {
+        private final boolean success;
+        private final int httpStatus;
+        private final String message;
+    }
 
-	@Getter
-	@AllArgsConstructor
-	public static class ApiError {
-		private final boolean success;
-		private final HttpStatus httpStatus;
-		private final ErrorCode errorCode;
-		private final String message;
-	}
+    @Getter
+    public static class SuccessResponse<T> extends BasicResponse {
+        private final T data;
+
+        public SuccessResponse(int httpStatus, String message, T data) {
+            super(true, httpStatus, message);
+            this.data = data;
+        }
+    }
+
+    @Getter
+    public static class FailedResponse extends BasicResponse {
+        private final String errorCode;
+
+        public FailedResponse(ErrorCode errorCode) {
+            super(false, errorCode.getHttpStatus().value(), errorCode.getMessage());
+            this.errorCode = errorCode.getErrorCode();
+        }
+    }
 }

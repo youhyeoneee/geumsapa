@@ -1,5 +1,6 @@
 package com.yhkim.auth;
 
+import com.yhkim.auth.dto.JwtTokenInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -44,21 +45,28 @@ public class JwtTokenProvider {
      * 토큰 생성
      *
      * @param username
-     * @return
+     * @return JwtTokenInfo
      */
-    public String generateToken(String username) {
+    public JwtTokenInfo generateToken(String username) {
         Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
+        Date expirationDate = new Date(now.getTime() + tokenValidTime);
+        
         log.info("createToken - username : " + username);
         
-        // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
-        // payload에 들어갈 내용
-        return Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
                 .signWith(key)
                 .compact();
+        
+        long expiresIn = (expirationDate.getTime() - now.getTime()) / 1000; // 초 단위로 변환
+        
+        return JwtTokenInfo.builder()
+                .accessToken(accessToken)
+                .expiresIn(expiresIn)
+                .build();
     }
     
     /**

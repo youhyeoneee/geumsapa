@@ -1,6 +1,8 @@
 package com.yhkim.domain.user.controller;
 
 
+import com.yhkim.domain.user.dto.LoginUserRequest;
+import com.yhkim.domain.user.dto.LoginUserResponse;
 import com.yhkim.domain.user.dto.SignupUserRequest;
 import com.yhkim.domain.user.dto.SignupUserResponse;
 import com.yhkim.domain.user.service.UserService;
@@ -35,6 +37,11 @@ public class UserController {
      */
     @PostMapping(value = "/signup")
     public ResponseEntity<ApiUtils.SuccessResponse<SignupUserResponse>> signup(@Valid @RequestBody SignupUserRequest signupUserRequest) {
-        return success(HttpStatus.CREATED, "Success to signup", userService.signup(signupUserRequest));
+        return success(HttpStatus.CREATED, "Success to signup.", userService.signup(signupUserRequest));
+    }
+    
+    @PostMapping(value = "/login")
+    public ResponseEntity<ApiUtils.SuccessResponse<LoginUserResponse>> login(@Valid @RequestBody LoginUserRequest loginUserRequest) {
+        return success(HttpStatus.OK, "Success to login.", userService.login(loginUserRequest));
     }
 }

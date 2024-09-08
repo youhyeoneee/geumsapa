@@ -18,21 +18,21 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor
 @Getter
 public class User extends BaseEntity {
-
+    
     @Comment("계정")
     @Column(unique = true, nullable = false, length = 20)
     private String username;
-
+    
     @Comment("비밀번호")
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false)
     private String password;
-
+    
     @Comment("이름")
     @Column(nullable = false, name = "fullname", length = 50)
     private String fullName;
-
+    
     @Comment("전화번호")
     @Column(nullable = false, length = 15)
     private String phoneNumber;
-
+    
 }

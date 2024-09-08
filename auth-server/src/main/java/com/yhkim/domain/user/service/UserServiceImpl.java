@@ -9,6 +9,7 @@ import com.yhkim.exception.CustomException;
 import com.yhkim.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     
     
     /**
@@ -32,6 +34,9 @@ public class UserServiceImpl implements UserService {
         if (isUserExist(signupUserRequest.getUsername())) {
             throw new CustomException(ErrorCode.USERNAME_ALREADY_EXIST);
         }
+        
+        String encodedPassword = passwordEncoder.encode(signupUserRequest.getPassword());
+        signupUserRequest.setPassword(encodedPassword);
         
         User savedUser = userRepository.save(signupUserRequest.toEntity());
         return SignupUserResponse.fromEntity(savedUser);

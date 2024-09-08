@@ -42,4 +42,8 @@ public class SignupUserRequest {
                 .phoneNumber(phoneNumber)
                 .build();
     }
+    
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 }

@@ -33,7 +33,7 @@ public class UserController {
      * @return 상태 코드 201 CREATED
      * @throws MethodArgumentNotValidException 회원가입 필드가 형식에 안맞을 경우 발생
      */
-    @PostMapping
+    @PostMapping(value = "/signup")
     public ResponseEntity<ApiUtils.SuccessResponse<SignupUserResponse>> signup(@Valid @RequestBody SignupUserRequest signupUserRequest) {
         return success(HttpStatus.CREATED, "Success to signup", userService.signup(signupUserRequest));
     }

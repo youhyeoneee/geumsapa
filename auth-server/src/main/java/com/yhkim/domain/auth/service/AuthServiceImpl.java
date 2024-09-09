@@ -4,6 +4,7 @@ import com.yhkim.domain.auth.JwtTokenProvider;
 import com.yhkim.domain.auth.TokenType;
 import com.yhkim.domain.auth.dto.JwtTokenInfo;
 import com.yhkim.domain.auth.dto.ReissueTokenResponse;
+import com.yhkim.domain.auth.entity.RefreshToken;
 import com.yhkim.domain.auth.repository.RefreshTokenRepository;
 import com.yhkim.exception.CustomException;
 import com.yhkim.exception.ErrorCode;
@@ -23,13 +24,26 @@ public class AuthServiceImpl implements AuthService {
     
     @Override
     public ReissueTokenResponse refresh(String refreshToken) {
-        // userName 가져옴
         try {
+            
+            // refresh token이 아닐 경우
+            String tokenType = jwtTokenProvider.parseTokenType(refreshToken);
+            if (!tokenType.equals(TokenType.REFRESH_TOKEN.name())) {
+                throw new CustomException(ErrorCode.INVALID_TOKEN_TYPE);
+            }
+            
             String username = jwtTokenProvider.parseUsername(refreshToken);
             log.info("username : {}", username);
             
             // refresh Token이 DB에 없다면
-            refreshTokenRepository.findByUsername(username);
+            RefreshToken obj = refreshTokenRepository.findByUsername(username).orElseThrow(() -> new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+            
+            // 깉지 않을 경우
+            if (!obj.getToken().equals(refreshToken)) {
+                throw new CustomException(ErrorCode.REFRESH_TOKEN_MISMATCH);
+            }
+            
+            // access token 발급
             JwtTokenInfo newAccessToken = jwtTokenProvider.generateToken(username, TokenType.ACCESS_TOKEN);
             
             return ReissueTokenResponse.builder().accessToken(newAccessToken).build();

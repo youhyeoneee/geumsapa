@@ -1,6 +1,6 @@
-package com.yhkim.auth.service;
+package com.yhkim.domain.auth.service;
 
-import com.yhkim.auth.dto.ReissueTokenResponse;
+import com.yhkim.domain.auth.dto.ReissueTokenResponse;
 
 public interface AuthService {
     

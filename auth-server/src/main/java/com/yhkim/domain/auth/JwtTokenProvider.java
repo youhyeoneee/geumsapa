@@ -1,6 +1,6 @@
-package com.yhkim.auth;
+package com.yhkim.domain.auth;
 
-import com.yhkim.auth.dto.JwtTokenInfo;
+import com.yhkim.domain.auth.dto.JwtTokenInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

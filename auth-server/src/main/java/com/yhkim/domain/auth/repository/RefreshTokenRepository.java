@@ -1,6 +1,6 @@
-package com.yhkim.auth.repository;
+package com.yhkim.domain.auth.repository;
 
-import com.yhkim.auth.entity.RefreshToken;
+import com.yhkim.domain.auth.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

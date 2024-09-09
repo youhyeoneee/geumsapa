@@ -1,7 +1,7 @@
-package com.yhkim.auth.filter;
+package com.yhkim.domain.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yhkim.auth.JwtTokenProvider;
+import com.yhkim.domain.auth.JwtTokenProvider;
 import com.yhkim.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

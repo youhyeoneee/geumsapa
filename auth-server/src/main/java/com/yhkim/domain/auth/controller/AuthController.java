@@ -1,8 +1,8 @@
-package com.yhkim.auth.controller;
+package com.yhkim.domain.auth.controller;
 
 
-import com.yhkim.auth.dto.ReissueTokenResponse;
-import com.yhkim.auth.service.AuthService;
+import com.yhkim.domain.auth.dto.ReissueTokenResponse;
+import com.yhkim.domain.auth.service.AuthService;
 import com.yhkim.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

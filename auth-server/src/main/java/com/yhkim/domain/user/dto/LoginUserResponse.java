@@ -2,7 +2,7 @@ package com.yhkim.domain.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yhkim.auth.dto.JwtTokenInfo;
+import com.yhkim.domain.auth.dto.JwtTokenInfo;
 import lombok.Builder;
 import lombok.Getter;
 

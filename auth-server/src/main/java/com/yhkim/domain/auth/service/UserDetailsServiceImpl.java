@@ -1,7 +1,7 @@
-package com.yhkim.auth.service;
+package com.yhkim.domain.auth.service;
 
 
-import com.yhkim.auth.UserDetailsImpl;
+import com.yhkim.domain.auth.UserDetailsImpl;
 import com.yhkim.domain.user.entity.User;
 import com.yhkim.domain.user.repository.UserRepository;
 import lombok.AllArgsConstructor;

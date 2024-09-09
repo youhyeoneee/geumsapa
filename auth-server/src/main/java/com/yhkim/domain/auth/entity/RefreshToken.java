@@ -1,4 +1,4 @@
-package com.yhkim.auth.entity;
+package com.yhkim.domain.auth.entity;
 
 
 import com.yhkim.entity.BaseEntity;

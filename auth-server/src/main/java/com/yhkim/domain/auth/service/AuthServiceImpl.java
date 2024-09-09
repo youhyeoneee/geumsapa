@@ -1,10 +1,10 @@
-package com.yhkim.auth.service;
+package com.yhkim.domain.auth.service;
 
-import com.yhkim.auth.JwtTokenProvider;
-import com.yhkim.auth.TokenType;
-import com.yhkim.auth.dto.JwtTokenInfo;
-import com.yhkim.auth.dto.ReissueTokenResponse;
-import com.yhkim.auth.repository.RefreshTokenRepository;
+import com.yhkim.domain.auth.JwtTokenProvider;
+import com.yhkim.domain.auth.TokenType;
+import com.yhkim.domain.auth.dto.JwtTokenInfo;
+import com.yhkim.domain.auth.dto.ReissueTokenResponse;
+import com.yhkim.domain.auth.repository.RefreshTokenRepository;
 import com.yhkim.exception.CustomException;
 import com.yhkim.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;

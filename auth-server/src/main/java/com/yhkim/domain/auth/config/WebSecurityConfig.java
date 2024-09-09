@@ -1,7 +1,7 @@
-package com.yhkim.auth.config;
+package com.yhkim.domain.auth.config;
 
-import com.yhkim.auth.JwtTokenProvider;
-import com.yhkim.auth.filter.JwtAuthenticationFilter;
+import com.yhkim.domain.auth.JwtTokenProvider;
+import com.yhkim.domain.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

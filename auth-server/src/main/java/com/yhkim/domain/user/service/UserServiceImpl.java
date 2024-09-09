@@ -1,11 +1,11 @@
 package com.yhkim.domain.user.service;
 
 
-import com.yhkim.auth.JwtTokenProvider;
-import com.yhkim.auth.TokenType;
-import com.yhkim.auth.dto.JwtTokenInfo;
-import com.yhkim.auth.entity.RefreshToken;
-import com.yhkim.auth.repository.RefreshTokenRepository;
+import com.yhkim.domain.auth.JwtTokenProvider;
+import com.yhkim.domain.auth.TokenType;
+import com.yhkim.domain.auth.dto.JwtTokenInfo;
+import com.yhkim.domain.auth.entity.RefreshToken;
+import com.yhkim.domain.auth.repository.RefreshTokenRepository;
 import com.yhkim.domain.user.dto.LoginUserRequest;
 import com.yhkim.domain.user.dto.LoginUserResponse;
 import com.yhkim.domain.user.dto.SignupUserRequest;

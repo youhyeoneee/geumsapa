@@ -1,4 +1,4 @@
-package com.yhkim.auth;
+package com.yhkim.domain.auth;
 
 public enum TokenType {
     ACCESS_TOKEN,

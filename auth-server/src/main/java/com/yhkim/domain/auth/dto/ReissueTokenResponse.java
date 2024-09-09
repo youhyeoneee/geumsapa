@@ -1,4 +1,4 @@
-package com.yhkim.auth.dto;
+package com.yhkim.domain.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

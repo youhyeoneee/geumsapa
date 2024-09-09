@@ -14,6 +14,10 @@ public enum ErrorCode {
     INVALID_FULL_NAME_FORMAT(HttpStatus.BAD_REQUEST, "E400003", "Invalid full name format."),
     INVALID_PHONE_NUMBER_FORMAT(HttpStatus.BAD_REQUEST, "E400004", "Invalid phone number format."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "E400005", "Incorrect password."),
+    MISSING_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "E400006", "Required request header 'Refresh-Token' is missing."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "E401001", "Refresh token is invalid or does not exist."),
+    ACCESS_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "E401002", "Access token has expired. Please use the refresh token to reissue a new access token."),
+    REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "E401003", "Refresh token has expired. Please log in again to continue."),
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "Username not found."),
     USERNAME_ALREADY_EXIST(HttpStatus.CONFLICT, "E409001", "Username already exists.");
     

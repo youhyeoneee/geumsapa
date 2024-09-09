@@ -88,8 +88,9 @@ public class UserServiceImpl implements UserService {
         }
         
         return LoginUserResponse.builder()
-                .accessToken(accessTokenInfo)
-                .refreshToken(refreshTokenInfo)
+                .accessToken(accessTokenInfo.getToken())
+                .expiredAt(accessTokenInfo.getExpiresIn())
+                .refreshToken(refreshTokenInfo.getToken())
                 .build();
     }
     

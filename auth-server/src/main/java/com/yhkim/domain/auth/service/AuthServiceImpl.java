@@ -46,7 +46,10 @@ public class AuthServiceImpl implements AuthService {
             // access token 발급
             JwtTokenInfo newAccessToken = jwtTokenProvider.generateToken(username, TokenType.ACCESS_TOKEN);
             
-            return ReissueTokenResponse.builder().accessToken(newAccessToken).build();
+            return ReissueTokenResponse.builder()
+                    .accessToken(newAccessToken.getToken())
+                    .expiredAt(newAccessToken.getExpiresIn())
+                    .build();
             
         } catch (ExpiredJwtException exception) {
             throw new CustomException(ErrorCode.REFRESH_TOKEN_EXPIRED);

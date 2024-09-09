@@ -10,5 +10,7 @@ import lombok.Getter;
 public class ReissueTokenResponse {
     
     @JsonProperty("access_token")
-    JwtTokenInfo accessToken;
+    String accessToken;
+    @JsonProperty("expired_at")
+    private long expiredAt;
 }

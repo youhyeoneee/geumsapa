@@ -1,5 +1,6 @@
-package com.yhkim.auth;
+package com.yhkim.domain.auth;
 
+import com.yhkim.domain.auth.dto.JwtTokenInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,10 @@ import java.util.Date;
 public class JwtTokenProvider {
     
     private final UserDetailsService userDetailsService;
-    private final long tokenValidTime = 24 * 60 * 60 * 1000L; // 24 hours
+    private final long accessTokenValidTime = 60 * 60 * 1000L; // 1 hour
+    private final long refreshTokenValidTime = 30 * 24 * 60 * 60 * 1000L; // 30 days
     private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String TOKEN_TYPE_CLAIM = "token_type";
     
     @Value("${jwt.secret}")
     private String SECRET_KEY;
@@ -44,21 +48,34 @@ public class JwtTokenProvider {
      * 토큰 생성
      *
      * @param username
-     * @return
+     * @return JwtTokenInfo
      */
-    public String generateToken(String username) {
-        Claims claims = Jwts.claims().setSubject(username);
-        Date now = new Date();
-        log.info("createToken - username : " + username);
+    public JwtTokenInfo generateToken(String username, TokenType tokenType) {
         
-        // header에 들어갈 내용 및 서명을 하기 위한 SECRET_KEY
-        // payload에 들어갈 내용
-        return Jwts.builder()
+        // 클레임 설정
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put(TOKEN_TYPE_CLAIM, tokenType);
+        
+        log.info("createToken - username : {} , type : {} ", username, tokenType);
+        
+        // 만료 시간 설정
+        Date now = new Date();
+        long tokenValidTime = (tokenType == TokenType.ACCESS_TOKEN) ? accessTokenValidTime : refreshTokenValidTime;
+        Date expirationDate = new Date(now.getTime() + tokenValidTime);
+        
+        String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .setExpiration(expirationDate)
                 .signWith(key)
                 .compact();
+        
+        long expiresIn = (expirationDate.getTime() - now.getTime()) / 1000; // 초 단위로 변환
+        
+        return JwtTokenInfo.builder()
+                .token(token)
+                .expiresIn(expiresIn)
+                .build();
     }
     
     /**
@@ -69,7 +86,17 @@ public class JwtTokenProvider {
      */
     public String resolveToken(HttpServletRequest request) {
         
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        return resolveTokenFromBearerToken(bearerToken);
+    }
+    
+    /**
+     * bearerToken 토큰에서 token만 추출
+     *
+     * @param bearerToken
+     * @return
+     */
+    public String resolveTokenFromBearerToken(String bearerToken) {
         log.info("token : {}", bearerToken);
         
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
@@ -84,7 +111,6 @@ public class JwtTokenProvider {
      * @param accessToken
      * @return
      */
-    
     public Authentication getAuthentication(String accessToken) {
         String username = parseUsername(accessToken);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -94,15 +120,26 @@ public class JwtTokenProvider {
     }
     
     /**
-     * access token에서 username 추출
+     * token에서 username 추출
      *
-     * @param accessToken
+     * @param token
      * @return
      */
-    private String parseUsername(String accessToken) {
-        // TODO: ExpiredJwtException GlobalExceptionHandler 추가
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(accessToken).getBody().getSubject();
+    public String parseUsername(String token) {
+        return parseClaims(token).getSubject();
     }
     
+    public String parseTokenType(String token) {
+        return (String) parseClaims(token).get(TOKEN_TYPE_CLAIM);
+    }
+    
+    /**
+     * token에서 Claims 추출
+     *
+     * @param token
+     * @return
+     */
+    private Claims parseClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
 }

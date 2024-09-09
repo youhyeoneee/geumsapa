@@ -29,6 +29,7 @@ public class JwtTokenProvider {
     private final long accessTokenValidTime = 60 * 60 * 1000L; // 1 hour
     private final long refreshTokenValidTime = 30 * 24 * 60 * 60 * 1000L; // 30 days
     private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String TOKEN_TYPE_CLAIM = "token_type";
     
     @Value("${jwt.secret}")
     private String SECRET_KEY;
@@ -53,7 +54,7 @@ public class JwtTokenProvider {
         
         // 클레임 설정
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("token_type", tokenType);
+        claims.put(TOKEN_TYPE_CLAIM, tokenType);
         
         log.info("createToken - username : {} , type : {} ", username, tokenType);
         
@@ -126,6 +127,10 @@ public class JwtTokenProvider {
      */
     public String parseUsername(String token) {
         return parseClaims(token).getSubject();
+    }
+    
+    public String parseTokenType(String token) {
+        return (String) parseClaims(token).get(TOKEN_TYPE_CLAIM);
     }
     
     /**

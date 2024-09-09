@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -68,4 +69,18 @@ public class GlobalExceptionHandler {
         return null;
     }
     
+    @ExceptionHandler(value = {MissingRequestHeaderException.class})
+    public ResponseEntity<ApiUtils.FailedResponse> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
+        
+        log.error("handleMissingRequestHeaderException", ex);
+        
+        String headerName = ex.getHeaderName();
+        
+        if (headerName.equals("Refresh-Token")) {
+            return failed(ErrorCode.MISSING_REFRESH_TOKEN);
+        }
+        
+        // TODO: MissingRequestHeaderException 일어나는 다른 경우 추가하기
+        return null;
+    }
 }

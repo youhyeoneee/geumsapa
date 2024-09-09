@@ -11,15 +11,8 @@ import lombok.Getter;
 public class LoginUserResponse {
     
     @JsonProperty("access_token")
-    private String accessToken;
+    private JwtTokenInfo accessToken;
     
-    @JsonProperty("expired_at")
-    private long expiredAt;
-    
-    public static LoginUserResponse fromJwtTokenInfo(JwtTokenInfo jwtTokenInfo) {
-        return LoginUserResponse.builder()
-                .accessToken(jwtTokenInfo.getAccessToken())
-                .expiredAt(jwtTokenInfo.getExpiresIn())
-                .build();
-    }
+    @JsonProperty("refresh_token")
+    private JwtTokenInfo refreshToken;
 }

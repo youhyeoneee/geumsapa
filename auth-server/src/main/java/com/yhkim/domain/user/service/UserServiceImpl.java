@@ -2,7 +2,10 @@ package com.yhkim.domain.user.service;
 
 
 import com.yhkim.auth.JwtTokenProvider;
+import com.yhkim.auth.TokenType;
 import com.yhkim.auth.dto.JwtTokenInfo;
+import com.yhkim.auth.entity.RefreshToken;
+import com.yhkim.auth.repository.RefreshTokenRepository;
 import com.yhkim.domain.user.dto.LoginUserRequest;
 import com.yhkim.domain.user.dto.LoginUserResponse;
 import com.yhkim.domain.user.dto.SignupUserRequest;
@@ -17,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -25,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
     
     
     /**
@@ -49,16 +55,42 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
+    @Transactional
     public LoginUserResponse login(LoginUserRequest loginUserRequest) {
+        
+        // username 존재하는지 확인
         User user = userRepository.findByUsername(loginUserRequest.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
         
+        // 비밀번호 일치하는지 확인
         if (!passwordEncoder.matches(loginUserRequest.getPassword(), user.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
         
-        JwtTokenInfo jwtTokenInfo = jwtTokenProvider.generateToken(user.getUsername());
-        return LoginUserResponse.fromJwtTokenInfo(jwtTokenInfo);
+        
+        // access, refresh 토큰 생성
+        JwtTokenInfo accessTokenInfo = jwtTokenProvider.generateToken(user.getUsername(), TokenType.ACCESS_TOKEN);
+        JwtTokenInfo refreshTokenInfo = jwtTokenProvider.generateToken(user.getUsername(), TokenType.REFRESH_TOKEN);
+        
+        // refresh 토큰 DB에 upsert
+        Optional<RefreshToken> savedRefreshToken = refreshTokenRepository.findByUsername(user.getUsername());
+        
+        if (savedRefreshToken.isEmpty()) {
+            RefreshToken obj = RefreshToken.builder()
+                    .username(user.getUsername())
+                    .token(refreshTokenInfo.getToken())
+                    .build();
+            
+            refreshTokenRepository.save(obj);
+        } else {
+            savedRefreshToken.get().setToken(refreshTokenInfo.getToken());
+            refreshTokenRepository.save(savedRefreshToken.get());
+        }
+        
+        return LoginUserResponse.builder()
+                .accessToken(accessTokenInfo)
+                .refreshToken(refreshTokenInfo)
+                .build();
     }
     
     /**

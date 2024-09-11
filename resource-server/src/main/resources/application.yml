@@ -14,9 +14,17 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+        show_sql: true
+    defer-datasource-initialization: true # (2.5~) Hibernate 초기화 이후 data.sql 실행
+
+  sql:
+    init:
+      mode: always
 
 server:
   port: 8081

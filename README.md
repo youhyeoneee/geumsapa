@@ -2,6 +2,14 @@
 
 금을 판매하고 구매하는 서비스입니다.
 
+## 목차
+
+1. [Quick Start](#quick-start)
+2. [Quick Stop](#quick-stop)
+3. [DB Diagram](#db-diagram)
+4. [API 명세서](#api-명세서)
+5. [요구사항 달성도](#요구사항-달성도)
+
 ## Quick Start
 
 ### 1. 사전 준비 사항
@@ -81,3 +89,21 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 ### API 명세서
 
 [Postman](https://documenter.getpostman.com/view/9878847/2sAXqmBQp4)
+
+### 요구사항 달성도
+
+| 기능              | 상태    |
+|-----------------|-------|
+| 회원가입            | 완료    |
+| 로그인             | 완료    |
+| 로그아웃            | 미완료   |
+| 회원 정보 조회        | 완료    |
+| 회원 정보 수정        | 완료    |
+| 회원 탈퇴           | 완료    |
+| AccessToken 재발급 | 완료    |
+| 주문 등록           | 완료    |
+| 주문 취소           | 완료    |
+| 주문 상태 수정        | 완료    |
+| 주문 조회           | 일부 구현 |
+
+*GRPC 통신 미완료

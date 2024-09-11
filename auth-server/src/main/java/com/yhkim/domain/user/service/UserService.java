@@ -11,4 +11,6 @@ public interface UserService {
     UserDetailResponse getUserDetail(String username);
     
     void update(String username, SignupUserRequest signupUserRequest);
+    
+    DeleteUserResponse delete(String username);
 }

@@ -117,6 +117,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     
+    @Override
+    @Transactional
+    public DeleteUserResponse delete(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
+        
+        user.delete();
+        
+        return DeleteUserResponse.builder()
+                .userId(user.getId())
+                .deletedAt(user.getDeletedAt())
+                .build();
+    }
+    
     /**
      * 계정 존재 여부 확인
      *

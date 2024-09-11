@@ -3,6 +3,7 @@ package com.yhkim.domain.order.service;
 import com.yhkim.domain.order.dto.CreateOrderRequest;
 import com.yhkim.domain.order.dto.OrderDetailResponse;
 import com.yhkim.domain.order.entity.Order;
+import com.yhkim.domain.order.entity.OrderStatus;
 import com.yhkim.domain.order.repository.OrderRepository;
 import com.yhkim.domain.order.util.OrderNumberGenerator;
 import com.yhkim.domain.product.entity.Product;
@@ -53,6 +54,26 @@ public class OrderServiceImpl implements OrderService {
         savedOrder.setOrderNumber(orderNumber);
         
         return savedOrder.getOrderDetail();
+    }
+    
+    @Override
+    @Transactional
+    public OrderDetailResponse cancelOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
+        
+        // 이미 취소된 경우
+        if (order.getDeletedAt() != null) {
+            throw new CustomException(ErrorCode.ORDER_ALREADY_CANCELLED);
+        }
+        
+        // 수령 완료거나 발송 완료 시 주문 취소 못하도록
+        if (order.getStatus().equals(OrderStatus.RECEIPT_COMPLETED) || order.getStatus().equals(OrderStatus.SHIPMENT_COMPLETED)) {
+            throw new CustomException(ErrorCode.ORDER_CANCELLATION_NOT_ALLOWED);
+        }
+        
+        order.delete();
+        
+        return order.getOrderDetail();
     }
     
     

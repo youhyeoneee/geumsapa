@@ -20,3 +20,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
 
 위 명령어는 백그라운드에서 데이터베이스 컨테이너를 실행합니다. <br/>
 실행 중인 상태를 확인하려면 `docker ps` 명령어를 사용하세요.
+
+### [DB Diagram](https://dbdiagram.io/d/금사파-ERD-66d7bb70eef7e08f0e9a917c)
+
+![금사파 ERD (3)](https://github.com/user-attachments/assets/3b18ae47-5266-43cd-aa6e-be77f3cdcf93)

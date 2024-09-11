@@ -53,4 +53,8 @@ public class User extends BaseEntity {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
     }
+    
+    public void delete() {
+        this.setDeletedAt();
+    }
 }

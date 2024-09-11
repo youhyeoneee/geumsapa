@@ -28,6 +28,10 @@ public abstract class BaseEntity {
     
     @Column(name = "deleted_at", columnDefinition = "timestamp")
     private LocalDateTime deletedAt;
+    
+    public void setDeletedAt() {
+        deletedAt = LocalDateTime.now();
+    }
 }
 
 

@@ -55,4 +55,10 @@ public class UserController {
         userService.update(username, signupUserRequest);
         return success(HttpStatus.OK, "Success to update user's detail.", userService.getUserDetail(username));
     }
+    
+    @DeleteMapping(value = "/me")
+    public ResponseEntity<ApiUtils.SuccessResponse<DeleteUserResponse>> delete(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        return success(HttpStatus.OK, "Success to delete user", userService.delete(username));
+    }
 }

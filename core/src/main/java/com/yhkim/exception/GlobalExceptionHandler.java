@@ -61,6 +61,21 @@ public class GlobalExceptionHandler {
                     errorCode.setMessage(errorMessage);
                     return failed(errorCode);
                 }
+                case "quantity" -> {
+                    ErrorCode errorCode = ErrorCode.INVALID_QUANTITY_FORMAT;
+                    errorCode.setMessage(errorMessage);
+                    return failed(errorCode);
+                }
+                case "orderType" -> {
+                    ErrorCode errorCode = ErrorCode.INVALID_ORDER_TYPE_FORMAT;
+                    errorCode.setMessage(errorMessage);
+                    return failed(errorCode);
+                }
+                default -> {
+                    ErrorCode errorCode = ErrorCode.INVALID_INPUT_FORMAT;
+                    errorCode.setMessage("Invalid " + field + " format");
+                    return failed(errorCode);
+                }
             }
         }
         

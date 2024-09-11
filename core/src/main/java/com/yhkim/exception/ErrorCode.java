@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     
+    INVALID_INPUT_FORMAT(HttpStatus.BAD_REQUEST, "E400000", "Invalid input format."),
     INVALID_USERNAME_FORMAT(HttpStatus.BAD_REQUEST, "E400001", "Invalid username format."),
     INVALID_PASSWORD_FORMAT(HttpStatus.BAD_REQUEST, "E400002", "Invalid password format."),
     INVALID_FULL_NAME_FORMAT(HttpStatus.BAD_REQUEST, "E400003", "Invalid full name format."),
@@ -16,6 +17,9 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "E400005", "Incorrect password."),
     MISSING_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "E400006", "Required request header 'Refresh-Token' is missing."),
     INVALID_TOKEN_TYPE(HttpStatus.BAD_REQUEST, "E400007", "Invalid token type. Only refresh tokens are accepted for this operation."),
+    INVALID_QUANTITY_FORMAT(HttpStatus.BAD_REQUEST, "E400008", "Invalid quantity format."),
+    INVALID_ORDER_TYPE_FORMAT(HttpStatus.BAD_REQUEST, "E400009", "Invalid order type format."),
+    
     
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "E401001", "Refresh token is invalid or does not exist."),
     ACCESS_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "E401002", "Access token has expired. Please use the refresh token to reissue a new access token."),
@@ -23,6 +27,9 @@ public enum ErrorCode {
     REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "E401004", "The provided refresh token does not match the stored token."),
     
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "Username not found."),
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "E404002", "Product not found."),
+    PRODUCT_PRICE_NOT_FOUND(HttpStatus.NOT_FOUND, "E404003", "Product price not found."),
+    
     
     USERNAME_ALREADY_EXIST(HttpStatus.CONFLICT, "E409001", "Username already exists.");
     

@@ -53,6 +53,10 @@ public class Order extends BaseEntity {
         this.setDeletedAt();
     }
     
+    public void updateStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
+    }
+    
     public OrderDetailResponse getOrderDetail() {
         return OrderDetailResponse.builder()
                 .orderId(getId())

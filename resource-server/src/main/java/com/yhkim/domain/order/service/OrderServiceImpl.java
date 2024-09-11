@@ -4,6 +4,7 @@ import com.yhkim.domain.order.dto.CreateOrderRequest;
 import com.yhkim.domain.order.dto.OrderDetailResponse;
 import com.yhkim.domain.order.entity.Order;
 import com.yhkim.domain.order.entity.OrderStatus;
+import com.yhkim.domain.order.entity.OrderType;
 import com.yhkim.domain.order.repository.OrderRepository;
 import com.yhkim.domain.order.util.OrderNumberGenerator;
 import com.yhkim.domain.product.entity.Product;
@@ -76,5 +77,38 @@ public class OrderServiceImpl implements OrderService {
         return order.getOrderDetail();
     }
     
+    @Override
+    @Transactional
+    public OrderDetailResponse updateOrder(Integer orderId, OrderStatus newOrderStatus) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
+        
+        // 주문 타입에 따른 상태 유효성 검사
+        if (!isMatchedOrderType(order.getOrderType(), newOrderStatus)) {
+            log.error("주문 타입에 따른 상태 유효성 검사 실패 type : {} / status : {}", order.getOrderType(), newOrderStatus);
+            throw new CustomException(ErrorCode.INVALID_ORDER_STATUS);
+        }
+        
+        // 상태 순서 검사
+        if (!order.getStatus().canTransitionTo(newOrderStatus)) {
+            log.error("상태 순서 검사 실패 origin : {} - new : {}", order.getStatus(), newOrderStatus);
+            throw new CustomException(ErrorCode.INVALID_ORDER_STATUS_SEQUENCE);
+        }
+        
+        order.updateStatus(newOrderStatus);
+        
+        return order.getOrderDetail();
+    }
+    
+    private boolean isMatchedOrderType(OrderType orderType, OrderStatus orderStatus) {
+        if (orderStatus == OrderStatus.ORDER_COMPLETED) {
+            return true;
+        } else if (orderType.equals(OrderType.BUY) && (orderStatus == OrderStatus.PAYMENT_COMPLETED || orderStatus == OrderStatus.SHIPMENT_COMPLETED)) {
+            return true;
+        } else if (orderType.equals(OrderType.SELL) && (orderStatus == OrderStatus.REMITTANCE_COMPLETED || orderStatus == OrderStatus.RECEIPT_COMPLETED)) {
+            return true;
+        }
+        
+        return false;
+    }
     
 }

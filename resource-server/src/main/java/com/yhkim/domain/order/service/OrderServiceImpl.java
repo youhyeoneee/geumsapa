@@ -16,6 +16,8 @@ import com.yhkim.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -97,6 +99,13 @@ public class OrderServiceImpl implements OrderService {
         order.updateStatus(newOrderStatus);
         
         return order.getOrderDetail();
+    }
+    
+    @Override
+    @Transactional
+    public Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId) {
+        return orderRepository.findByOrderUserIdOrderByIdDesc(userId, pageable)
+                .map(OrderDetailResponse::fromEntity);
     }
     
     private boolean isMatchedOrderType(OrderType orderType, OrderStatus orderStatus) {

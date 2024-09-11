@@ -46,4 +46,13 @@ public class UserController {
         String username = userDetails.getUsername();
         return success(HttpStatus.OK, "Success to get user's detail.", userService.getUserDetail(username));
     }
+    
+    @PutMapping(value = "/me")
+    public ResponseEntity<ApiUtils.SuccessResponse<UserDetailResponse>> detail(@AuthenticationPrincipal UserDetails userDetails,
+                                                                               @Valid @RequestBody SignupUserRequest signupUserRequest) {
+        
+        String username = userDetails.getUsername();
+        userService.update(username, signupUserRequest);
+        return success(HttpStatus.OK, "Success to update user's detail.", userService.getUserDetail(username));
+    }
 }

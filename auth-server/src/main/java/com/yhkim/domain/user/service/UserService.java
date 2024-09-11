@@ -9,4 +9,6 @@ public interface UserService {
     LoginUserResponse login(LoginUserRequest loginUserRequest);
     
     UserDetailResponse getUserDetail(String username);
+    
+    void update(String username, SignupUserRequest signupUserRequest);
 }

@@ -6,10 +6,7 @@ import com.yhkim.domain.auth.TokenType;
 import com.yhkim.domain.auth.dto.JwtTokenInfo;
 import com.yhkim.domain.auth.entity.RefreshToken;
 import com.yhkim.domain.auth.repository.RefreshTokenRepository;
-import com.yhkim.domain.user.dto.LoginUserRequest;
-import com.yhkim.domain.user.dto.LoginUserResponse;
-import com.yhkim.domain.user.dto.SignupUserRequest;
-import com.yhkim.domain.user.dto.SignupUserResponse;
+import com.yhkim.domain.user.dto.*;
 import com.yhkim.domain.user.entity.User;
 import com.yhkim.domain.user.repository.UserRepository;
 import com.yhkim.exception.CustomException;
@@ -92,6 +89,19 @@ public class UserServiceImpl implements UserService {
                 .expiredAt(accessTokenInfo.getExpiresIn())
                 .refreshToken(refreshTokenInfo.getToken())
                 .build();
+    }
+    
+    /**
+     * 유저 정보 조회
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public UserDetailResponse getUserDetail(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
+        return user.getUserDetail();
     }
     
     /**

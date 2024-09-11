@@ -1,10 +1,7 @@
 package com.yhkim.domain.user.controller;
 
 
-import com.yhkim.domain.user.dto.LoginUserRequest;
-import com.yhkim.domain.user.dto.LoginUserResponse;
-import com.yhkim.domain.user.dto.SignupUserRequest;
-import com.yhkim.domain.user.dto.SignupUserResponse;
+import com.yhkim.domain.user.dto.*;
 import com.yhkim.domain.user.service.UserService;
 import com.yhkim.util.ApiUtils;
 import jakarta.validation.Valid;
@@ -12,11 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.yhkim.util.ApiUtils.success;
 
@@ -43,5 +39,11 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<ApiUtils.SuccessResponse<LoginUserResponse>> login(@Valid @RequestBody LoginUserRequest loginUserRequest) {
         return success(HttpStatus.OK, "Success to login.", userService.login(loginUserRequest));
+    }
+    
+    @GetMapping(value = "/me")
+    public ResponseEntity<ApiUtils.SuccessResponse<UserDetailResponse>> detail(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        return success(HttpStatus.OK, "Success to get user's detail.", userService.getUserDetail(username));
     }
 }

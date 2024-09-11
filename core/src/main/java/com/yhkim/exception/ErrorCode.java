@@ -29,9 +29,12 @@ public enum ErrorCode {
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "Username not found."),
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "E404002", "Product not found."),
     PRODUCT_PRICE_NOT_FOUND(HttpStatus.NOT_FOUND, "E404003", "Product price not found."),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "E404004", "Order not found."),
     
     
-    USERNAME_ALREADY_EXIST(HttpStatus.CONFLICT, "E409001", "Username already exists.");
+    USERNAME_ALREADY_EXIST(HttpStatus.CONFLICT, "E409001", "Username already exists."),
+    ORDER_CANCELLATION_NOT_ALLOWED(HttpStatus.CONFLICT, "E409002", "Order cancellation is not allowed. The order has already been received or shipped."),
+    ORDER_ALREADY_CANCELLED(HttpStatus.CONFLICT, "E409003", "The order has already been cancelled.");
     
     private final HttpStatus httpStatus;
     private final String errorCode;

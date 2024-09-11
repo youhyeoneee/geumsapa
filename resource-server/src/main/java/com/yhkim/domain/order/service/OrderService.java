@@ -6,7 +6,8 @@ import com.yhkim.domain.order.dto.OrderDetailResponse;
 public interface OrderService {
     
     OrderDetailResponse createOrder(CreateOrderRequest createOrderRequest);
-    // TODO: cancleOrder
+    
+    OrderDetailResponse cancelOrder(Integer orderId);
     
     // TODO: updateOrderStatus
     

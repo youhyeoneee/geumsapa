@@ -49,6 +49,10 @@ public class Order extends BaseEntity {
         this.orderNumber = orderNumber;
     }
     
+    public void delete() {
+        this.setDeletedAt();
+    }
+    
     public OrderDetailResponse getOrderDetail() {
         return OrderDetailResponse.builder()
                 .orderId(getId())

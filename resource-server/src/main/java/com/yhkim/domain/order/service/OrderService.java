@@ -2,6 +2,7 @@ package com.yhkim.domain.order.service;
 
 import com.yhkim.domain.order.dto.CreateOrderRequest;
 import com.yhkim.domain.order.dto.OrderDetailResponse;
+import com.yhkim.domain.order.entity.OrderStatus;
 
 public interface OrderService {
     
@@ -9,7 +10,7 @@ public interface OrderService {
     
     OrderDetailResponse cancelOrder(Integer orderId);
     
-    // TODO: updateOrderStatus
+    OrderDetailResponse updateOrder(Integer orderId, OrderStatus orderStatus);
     
     // TODO: getOrder
 }

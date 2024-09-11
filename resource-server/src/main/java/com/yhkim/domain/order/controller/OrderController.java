@@ -2,6 +2,7 @@ package com.yhkim.domain.order.controller;
 
 import com.yhkim.domain.order.dto.CreateOrderRequest;
 import com.yhkim.domain.order.dto.OrderDetailResponse;
+import com.yhkim.domain.order.dto.UpdateOrderRequest;
 import com.yhkim.domain.order.service.OrderService;
 import com.yhkim.util.ApiUtils;
 import jakarta.validation.Valid;
@@ -29,7 +30,10 @@ public class OrderController {
         return success(HttpStatus.CREATED, "Success to cancel order.", orderService.cancelOrder(orderId));
     }
     
-    // TODO: updateOrderStatus
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> updateOrderStatus(@PathVariable Integer orderId, @RequestBody UpdateOrderRequest updateOrderRequest) {
+        return success(HttpStatus.CREATED, "Success to update order status.", orderService.updateOrder(orderId, updateOrderRequest.getOrderStatus()));
+    }
     
     // TODO: getOrder
 }

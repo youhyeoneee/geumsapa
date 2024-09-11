@@ -1,23 +1,25 @@
 package com.yhkim.domain.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
 public enum OrderType {
-    BUY("BUY"),
-    SELL("SELL");
+    BUY("BY"),
+    SELL("SL");
     
-    private final String type;
+    private final String code;
     
-    // String 값으로부터 Enum을 찾는 메서드
-    public static OrderType fromString(String text) {
-        for (OrderType t : OrderType.values()) {
-            if (t.type.equalsIgnoreCase(text)) {
-                return t;
-            }
-        }
-        throw new IllegalArgumentException("Unknown trade type: " + text);
+    
+    @JsonCreator
+    public static OrderType parsing(String inputValue) {
+        return Stream.of(OrderType.values())
+                .filter(orderType -> orderType.name().equals(inputValue.toUpperCase()))
+                .findFirst()
+                .orElse(null);
     }
 }

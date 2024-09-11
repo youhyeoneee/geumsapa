@@ -1,5 +1,6 @@
 package com.yhkim.domain.order.entity;
 
+import com.yhkim.domain.order.dto.OrderDetailResponse;
 import com.yhkim.domain.product.entity.Product;
 import com.yhkim.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -17,12 +18,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 public class Order extends BaseEntity {
+    @Column(unique = true)
+    private String orderNumber;
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderType orderType;
     
     @Column(nullable = false)
-    private Long orderUserId;
+    private Integer orderUserId;
     
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -40,4 +44,25 @@ public class Order extends BaseEntity {
     
     @Column(nullable = false)
     private Integer totalPrice;
+    
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+    
+    public OrderDetailResponse getOrderDetail() {
+        return OrderDetailResponse.builder()
+                .orderId(getId())
+                .orderNumber(orderNumber)
+                .orderType(orderType)
+                .orderUserId(orderUserId)
+                .product(product.getName())
+                .status(status.getDescription())
+                .deliveryAddress(deliveryAddress)
+                .quantity(quantity)
+                .totalPrice(totalPrice)
+                .createdAt(getCreatedAt())
+                .updatedAt(getUpdatedAt())
+                .deletedAt(getDeletedAt())
+                .build();
+    }
 }

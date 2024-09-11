@@ -36,6 +36,10 @@ public class ProductPrice {
     @Column(nullable = false, updatable = false)
     private Integer pricePerCentigramme;
     
+    @Comment("변동된 이유")
+    @Column(nullable = false, updatable = false)
+    private String comment;
+    
     @CreatedDate
     @Column(nullable = false, updatable = false, columnDefinition = "timestamp")
     private LocalDateTime createdAt;

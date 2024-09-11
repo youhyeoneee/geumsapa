@@ -14,6 +14,11 @@ public class ApiUtils {
         return ResponseEntity.status(httpStatus).body(successResponse);
     }
     
+    public static <T, M> ResponseEntity<SuccessLinksResponse<T, M>> successWithLinks(HttpStatus httpStatus, String message, T data, M links) {
+        SuccessLinksResponse<T, M> successResponse = new SuccessLinksResponse<>(httpStatus.value(), message, data, links);
+        return ResponseEntity.status(httpStatus).body(successResponse);
+    }
+    
     public static ResponseEntity<FailedResponse> failed(ErrorCode errorCode) {
         FailedResponse failedResponse = new FailedResponse(errorCode);
         return ResponseEntity.status(errorCode.getHttpStatus()).body(failedResponse);
@@ -35,6 +40,18 @@ public class ApiUtils {
         public SuccessResponse(int httpStatus, String message, T data) {
             super(true, httpStatus, message);
             this.data = data;
+        }
+    }
+    
+    @Getter
+    public static class SuccessLinksResponse<T, M> extends BasicResponse {
+        private final T data;
+        private final M links;
+        
+        public SuccessLinksResponse(int httpStatus, String message, T data, M links) {
+            super(true, httpStatus, message);
+            this.data = data;
+            this.links = links;
         }
     }
     

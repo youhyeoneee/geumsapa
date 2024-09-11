@@ -103,7 +103,8 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 
 <img width=70% alt="image" src="https://github.com/user-attachments/assets/3b18ae47-5266-43cd-aa6e-be77f3cdcf93">
 
-[DB Diagram](https://dbdiagram.io/d/금사파-ERD-66d7bb70eef7e08f0e9a917c)
+- [DB Diagram](https://dbdiagram.io/d/금사파-ERD-66d7bb70eef7e08f0e9a917c) 에서 전체 ERD를 확인할 수 있습니다.
+- [ERD 변경 기록](https://github.com/youhyeoneee/geumsapa/wiki/ERD-%EA%B8%B0%EB%A1%9D) 에서 ERD의 변화 히스토리를 확인할 수 있습니다.
 
 ## API 명세서
 
@@ -112,8 +113,8 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 
 <br/>
 
-[Postman](https://documenter.getpostman.com/view/9878847/2sAXqmBQp4)에서 예시 Request, Response을 확인할 수 있습니다.
-
+- [Postman](https://documenter.getpostman.com/view/9878847/2sAXqmBQp4)에서 예시 Request, Response을 확인할 수 있습니다.
+- [에러 코드](https://github.com/youhyeoneee/geumsapa/wiki/Error-Code) 에서 응답에 사용된 에러 코드의 정보를 확인할 수 있습니다.
 
 ## 디렉토리 구조
 

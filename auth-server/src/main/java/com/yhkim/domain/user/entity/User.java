@@ -1,6 +1,7 @@
 package com.yhkim.domain.user.entity;
 
 
+import com.yhkim.domain.user.dto.UserDetailResponse;
 import com.yhkim.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,4 +36,14 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 15)
     private String phoneNumber;
     
+    public UserDetailResponse getUserDetail() {
+        return UserDetailResponse.builder()
+                .userID(this.getId())
+                .username(username)
+                .fullName(fullName)
+                .phoneNumber(phoneNumber)
+                .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
+                .build();
+    }
 }

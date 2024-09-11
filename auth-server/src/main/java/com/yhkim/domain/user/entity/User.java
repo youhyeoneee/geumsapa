@@ -46,4 +46,11 @@ public class User extends BaseEntity {
                 .updatedAt(this.getUpdatedAt())
                 .build();
     }
+    
+    public void update(String username, String password, String fullName, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+    }
 }

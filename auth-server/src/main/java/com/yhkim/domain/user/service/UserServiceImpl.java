@@ -104,6 +104,19 @@ public class UserServiceImpl implements UserService {
         return user.getUserDetail();
     }
     
+    @Override
+    public void update(String username, SignupUserRequest signupUserRequest) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
+        
+        String encodedPassword = passwordEncoder.encode(signupUserRequest.getPassword());
+        
+        user.update(signupUserRequest.getUsername(), encodedPassword,
+                signupUserRequest.getFullName(), signupUserRequest.getPhoneNumber());
+        
+        userRepository.save(user);
+    }
+    
     /**
      * 계정 존재 여부 확인
      *

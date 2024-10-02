@@ -56,5 +56,10 @@ public class AuthServiceImpl implements AuthService {
         }
     }
     
+    @Override
+    public String validateToken(String token) {
+        return jwtTokenProvider.parseUsername(token);
+    }
+    
     
 }

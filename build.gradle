@@ -30,13 +30,18 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        // spring
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-        annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+        // data jpa, mariadb
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+        // lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
 
         // validation
         implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -45,8 +50,8 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
-
 }
+
 
 project(':core') {
     // 공통 코드

@@ -30,6 +30,7 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.google.protobuf'
 
     java {
         toolchain {
@@ -42,7 +43,7 @@ subprojects {
             extendsFrom annotationProcessor
         }
     }
-    
+
 
     dependencies {
         // spring
@@ -60,6 +61,10 @@ subprojects {
 
         // validation
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        // mapstruct 설정
+        implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
         // grpc 프로토콜 버터를 사용하기 위한 핵심 라이브러리 (Protobuf 메시지의 직렬화 및 역직렬화를 지원합니다.)
         implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"

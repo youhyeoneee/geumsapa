@@ -14,5 +14,5 @@ public interface OrderService {
     
     OrderDetailResponse updateOrder(Integer orderId, OrderStatus orderStatus);
     
-    Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId);
+    Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, String invoice);
 }

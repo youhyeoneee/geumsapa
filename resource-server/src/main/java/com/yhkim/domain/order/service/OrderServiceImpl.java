@@ -103,10 +103,22 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     @Transactional
-    public Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId) {
-        return orderRepository.findByOrderUserIdOrderByIdDesc(userId, pageable)
+    public Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, String invoice) {
+        
+        if (invoice == null)
+            return orderRepository.findByOrderUserIdAndOrderType(userId, null, pageable)
+                    .map(OrderDetailResponse::fromEntity);
+        
+        OrderType selectedOrderType = OrderType.parsing(invoice);
+        if (selectedOrderType == null) {
+            throw new CustomException(ErrorCode.INVALID_INVOICE_TYPE);
+        }
+        log.info(selectedOrderType.name());
+        
+        return orderRepository.findByOrderUserIdAndOrderType(userId, selectedOrderType, pageable)
                 .map(OrderDetailResponse::fromEntity);
     }
+    
     
     private boolean isMatchedOrderType(OrderType orderType, OrderStatus orderStatus) {
         if (orderStatus == OrderStatus.ORDER_COMPLETED) {

@@ -32,9 +32,9 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<ApiUtils.SuccessLinksResponse<List<OrderDetailResponse>, Links>> getOrders(Pageable pageable,
                                                                                                      @Valid @RequestBody GetOrderRequest getOrderRequest,
+                                                                                                     @RequestParam(required = false) String invoice,
                                                                                                      HttpServletRequest request) {
-        
-        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId());
+        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId(), invoice);
         Links links = createLinks(ordersPage, request);
         
         return successWithLinks(HttpStatus.OK, "Success to get orders.", ordersPage.getContent(), links);

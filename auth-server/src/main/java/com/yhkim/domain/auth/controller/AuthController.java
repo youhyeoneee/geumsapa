@@ -21,8 +21,8 @@ public class AuthController {
     
     private final AuthService authService;
     
-    @GetMapping("/token")
-    public ResponseEntity<ApiUtils.SuccessResponse<ReissueTokenResponse>> refresh(@RequestHeader(name = "Refresh-Token") String refreshToken) {
+    @GetMapping("/token/reissue")
+    public ResponseEntity<ApiUtils.SuccessResponse<ReissueTokenResponse>> reissue(@RequestHeader(name = "Refresh-Token") String refreshToken) {
         return success(HttpStatus.OK, "Success to reissue access token.", authService.refresh(refreshToken));
     }
 }

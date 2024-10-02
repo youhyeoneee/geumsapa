@@ -99,16 +99,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDetailResponse getUserDetail(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
+        User user = findByUsername(username);
         return user.getUserDetail();
     }
     
     @Override
     public void update(String username, SignupUserRequest signupUserRequest) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
-        
+        User user = findByUsername(username);
         String encodedPassword = passwordEncoder.encode(signupUserRequest.getPassword());
         
         user.update(signupUserRequest.getUsername(), encodedPassword,
@@ -120,15 +117,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public DeleteUserResponse delete(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
-        
+        User user = findByUsername(username);
         user.delete();
         
         return DeleteUserResponse.builder()
                 .userId(user.getId())
                 .deletedAt(user.getDeletedAt())
                 .build();
+    }
+    
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USERNAME_NOT_FOUND));
     }
     
     /**

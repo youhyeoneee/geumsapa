@@ -6,6 +6,8 @@ import com.yhkim.domain.order.entity.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+
 public interface OrderService {
     
     OrderDetailResponse createOrder(CreateOrderRequest createOrderRequest);
@@ -14,5 +16,5 @@ public interface OrderService {
     
     OrderDetailResponse updateOrder(Integer orderId, OrderStatus orderStatus);
     
-    Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, String invoice);
+    Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, LocalDate date, String invoice);
 }

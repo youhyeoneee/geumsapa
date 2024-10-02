@@ -8,10 +8,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.yhkim.util.ApiUtils.success;
@@ -32,9 +34,10 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<ApiUtils.SuccessLinksResponse<List<OrderDetailResponse>, Links>> getOrders(Pageable pageable,
                                                                                                      @Valid @RequestBody GetOrderRequest getOrderRequest,
+                                                                                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                                                                      @RequestParam(required = false) String invoice,
                                                                                                      HttpServletRequest request) {
-        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId(), invoice);
+        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId(), date, invoice);
         Links links = createLinks(ordersPage, request);
         
         return successWithLinks(HttpStatus.OK, "Success to get orders.", ordersPage.getContent(), links);

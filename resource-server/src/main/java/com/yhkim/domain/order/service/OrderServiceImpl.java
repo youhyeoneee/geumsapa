@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -103,19 +104,22 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     @Transactional
-    public Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, String invoice) {
+    public Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, LocalDate date, String invoice) {
+        log.info("---- search filter start ----");
+        log.info("> invoice : {}", invoice);
+        log.info("> date : {}", date);
+        log.info("---- search filter end ----");
         
         if (invoice == null)
-            return orderRepository.findByOrderUserIdAndOrderType(userId, null, pageable)
+            return orderRepository.findByOrderUserIdAndOrderType(userId, null, date, pageable)
                     .map(OrderDetailResponse::fromEntity);
         
         OrderType selectedOrderType = OrderType.parsing(invoice);
         if (selectedOrderType == null) {
             throw new CustomException(ErrorCode.INVALID_INVOICE_TYPE);
         }
-        log.info(selectedOrderType.name());
         
-        return orderRepository.findByOrderUserIdAndOrderType(userId, selectedOrderType, pageable)
+        return orderRepository.findByOrderUserIdAndOrderType(userId, selectedOrderType, date, pageable)
                 .map(OrderDetailResponse::fromEntity);
     }
     

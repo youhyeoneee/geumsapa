@@ -23,6 +23,8 @@ public enum ErrorCode {
     INVALID_ORDER_TYPE_FORMAT(HttpStatus.BAD_REQUEST, "E400009", "Invalid order type format."),
     INVALID_ORDER_STATUS(HttpStatus.BAD_REQUEST, "E400010", "Invalid order status."),
     INVALID_ORDER_STATUS_SEQUENCE(HttpStatus.BAD_REQUEST, "E400011", "Invalid order status sequence."),
+    INVALID_INVOICE_TYPE(HttpStatus.BAD_REQUEST, "E400012", "Invalid invoice type parameter. expected: ['buy', 'sell]"),
+    
     
     // user
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "E401001", "Refresh token is invalid or does not exist."),

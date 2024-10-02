@@ -8,10 +8,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.yhkim.util.ApiUtils.success;
@@ -32,22 +34,23 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<ApiUtils.SuccessLinksResponse<List<OrderDetailResponse>, Links>> getOrders(Pageable pageable,
                                                                                                      @Valid @RequestBody GetOrderRequest getOrderRequest,
+                                                                                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                                                                                     @RequestParam(required = false) String invoice,
                                                                                                      HttpServletRequest request) {
-        
-        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId());
+        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId(), date, invoice);
         Links links = createLinks(ordersPage, request);
         
-        return successWithLinks(HttpStatus.CREATED, "Success to get orders.", ordersPage.getContent(), links);
+        return successWithLinks(HttpStatus.OK, "Success to get orders.", ordersPage.getContent(), links);
     }
     
     @DeleteMapping("/{orderId}")
     public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> cancelOrder(@PathVariable Integer orderId) {
-        return success(HttpStatus.CREATED, "Success to cancel order.", orderService.cancelOrder(orderId));
+        return success(HttpStatus.OK, "Success to cancel order.", orderService.cancelOrder(orderId));
     }
     
     @PatchMapping("/{orderId}/status")
     public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> updateOrderStatus(@PathVariable Integer orderId, @RequestBody UpdateOrderRequest updateOrderRequest) {
-        return success(HttpStatus.CREATED, "Success to update order status.", orderService.updateOrder(orderId, updateOrderRequest.getOrderStatus()));
+        return success(HttpStatus.OK, "Success to update order status.", orderService.updateOrder(orderId, updateOrderRequest.getOrderStatus()));
     }
     
     private Links createLinks(Page<OrderDetailResponse> page, HttpServletRequest request) {

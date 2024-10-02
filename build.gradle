@@ -16,6 +16,12 @@ plugins {
     id 'com.google.protobuf' version "${protobufPluginVersion}"
 }
 
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
 subprojects {
     group = 'com.yhkim'
     version = '0.0.1-SNAPSHOT'
@@ -36,10 +42,7 @@ subprojects {
             extendsFrom annotationProcessor
         }
     }
-
-    repositories {
-        mavenCentral()
-    }
+    
 
     dependencies {
         // spring

@@ -3,6 +3,7 @@ package com.yhkim.domain.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yhkim.domain.auth.JwtTokenProvider;
 import com.yhkim.exception.ErrorCode;
+import com.yhkim.util.TokenUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -23,7 +24,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class
+JwtAuthenticationFilter extends GenericFilterBean {
     
     private final JwtTokenProvider jwtTokenProvider;
     
@@ -34,7 +36,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             String requestURI = httpRequest.getRequestURI();
             
-            String token = jwtTokenProvider.resolveToken(httpRequest);
+            String token = TokenUtils.resolveToken(httpRequest);
             
             if (token != null) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);

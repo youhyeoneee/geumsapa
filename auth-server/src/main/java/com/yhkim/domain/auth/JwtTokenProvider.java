@@ -6,11 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +26,6 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
     private final long accessTokenValidTime = 60 * 60 * 1000L; // 1 hour
     private final long refreshTokenValidTime = 30 * 24 * 60 * 60 * 1000L; // 30 days
-    private static final String TOKEN_PREFIX = "Bearer ";
     private static final String TOKEN_TYPE_CLAIM = "token_type";
     
     @Value("${jwt.secret}")
@@ -78,32 +75,6 @@ public class JwtTokenProvider {
                 .build();
     }
     
-    /**
-     * HTTP 요청 헤더에서 JWT 토큰을 추출
-     *
-     * @param request
-     * @return
-     */
-    public String resolveToken(HttpServletRequest request) {
-        
-        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        return resolveTokenFromBearerToken(bearerToken);
-    }
-    
-    /**
-     * bearerToken 토큰에서 token만 추출
-     *
-     * @param bearerToken
-     * @return
-     */
-    public String resolveTokenFromBearerToken(String bearerToken) {
-        log.info("token : {}", bearerToken);
-        
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
-            return bearerToken.substring(TOKEN_PREFIX.length());
-        }
-        return null;
-    }
     
     /**
      * JWT 토큰을 복호화하여 인증 정보를 가져옴

@@ -52,8 +52,11 @@ public class OrderController {
     }
     
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> cancelOrder(@PathVariable Integer orderId) {
-        return success(HttpStatus.OK, "Success to cancel order.", orderService.cancelOrder(orderId));
+    public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> cancelOrder(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                                     @PathVariable Integer orderId) {
+        
+        Integer userId = userDetails.getUserId();
+        return success(HttpStatus.OK, "Success to cancel order.", orderService.cancelOrder(userId, orderId));
     }
     
     @PatchMapping("/{orderId}/status")

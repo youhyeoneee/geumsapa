@@ -12,7 +12,7 @@ public interface OrderService {
     
     OrderDetailResponse createOrder(Integer userId, CreateOrderRequest createOrderRequest);
     
-    OrderDetailResponse cancelOrder(Integer orderId);
+    OrderDetailResponse cancelOrder(Integer userId, Integer orderId);
     
     OrderDetailResponse updateOrder(Integer orderId, OrderStatus orderStatus);
     

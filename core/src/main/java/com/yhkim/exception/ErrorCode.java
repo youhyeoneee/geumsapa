@@ -32,6 +32,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "E401003", "Refresh token has expired. Please log in again to continue."),
     REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "E401004", "The provided refresh token does not match the stored token."),
     
+    ORDER_OWNERSHIP_MISMATCH(HttpStatus.FORBIDDEN, "E403001", "The order does not belong to the authenticated user."),
+    
     // user
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "Username not found."),
     // product

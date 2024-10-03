@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -62,8 +63,11 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     @Transactional
-    public OrderDetailResponse cancelOrder(Integer orderId) {
+    public OrderDetailResponse cancelOrder(Integer userId, Integer orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
+        
+        // 자기 주문이 아닌 경우
+        validateOrderOwnership(orderId, userId);
         
         // 이미 취소된 경우
         if (order.getDeletedAt() != null) {
@@ -134,6 +138,14 @@ public class OrderServiceImpl implements OrderService {
         }
         
         return false;
+    }
+    
+    
+    private void validateOrderOwnership(Integer orderId, Integer userId) {
+        log.info(orderId + " - " + userId);
+        if (!Objects.equals(orderId, userId)) {
+            throw new CustomException(ErrorCode.ORDER_OWNERSHIP_MISMATCH);
+        }
     }
     
 }

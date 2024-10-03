@@ -1,8 +1,8 @@
 package com.yhkim.domain.auth.mapper;
 
-import com.yhkim.domain.auth.dto.ValidateTokenRequest;
 import com.yhkim.domain.user.entity.User;
 import com.yhkim.grpc.auth.AuthProto;
+import com.yhkim.grpc.dto.ValidateTokenRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

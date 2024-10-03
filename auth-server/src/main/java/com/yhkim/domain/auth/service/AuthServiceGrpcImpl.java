@@ -1,11 +1,11 @@
 package com.yhkim.domain.auth.service;
 
-import com.yhkim.domain.auth.dto.ValidateTokenRequest;
 import com.yhkim.domain.auth.mapper.AuthMapper;
 import com.yhkim.domain.user.entity.User;
 import com.yhkim.domain.user.service.UserService;
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.auth.AuthServiceGrpc;
+import com.yhkim.grpc.dto.ValidateTokenRequest;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

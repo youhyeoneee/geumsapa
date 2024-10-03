@@ -1,4 +1,4 @@
-package com.yhkim.domain.auth.dto;
+package com.yhkim.grpc.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

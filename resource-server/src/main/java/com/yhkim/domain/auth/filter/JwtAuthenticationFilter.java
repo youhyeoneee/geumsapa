@@ -1,5 +1,6 @@
 package com.yhkim.domain.auth.filter;
 
+import com.yhkim.domain.auth.CustomUserDetails;
 import com.yhkim.domain.auth.grpc.client.GrpcAuthClient;
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.util.TokenUtils;
@@ -33,8 +34,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 AuthProto.ValidateTokenResponse validateTokenResponse = grpcAuthClient.validate(token);
                 if (validateTokenResponse.getIsValid()) {
                     SecurityContext context = SecurityContextHolder.createEmptyContext();
+                    CustomUserDetails userDetails = new CustomUserDetails(validateTokenResponse.getUserId());
+                    
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            validateTokenResponse.getUserId(), null, Collections.emptyList());
+                            userDetails, null, Collections.emptyList());
                     
                     context.setAuthentication(authentication);
                     SecurityContextHolder.setContext(context);

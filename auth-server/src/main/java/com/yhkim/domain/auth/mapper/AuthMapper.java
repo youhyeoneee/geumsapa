@@ -1,8 +1,8 @@
 package com.yhkim.domain.auth.mapper;
 
-import com.yhkim.domain.user.entity.User;
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.dto.ValidateTokenRequest;
+import com.yhkim.grpc.dto.ValidateTokenResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -16,6 +16,6 @@ public interface AuthMapper {
     // gRPC request를 DTO로 변환
     ValidateTokenRequest requestProtoToDto(AuthProto.ValidateTokenRequest validateTokenRequest);
     
-    // Entity를 gRPC response로 변환
-    AuthProto.ValidateTokenResponse entityToResponseProto(User user);
+    // DTO를 gRPC response로 변환
+    AuthProto.ValidateTokenResponse dtoToResponseProto(ValidateTokenResponse validateTokenResponse);
 }

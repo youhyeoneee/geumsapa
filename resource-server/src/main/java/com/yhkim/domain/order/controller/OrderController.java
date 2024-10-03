@@ -60,8 +60,11 @@ public class OrderController {
     }
     
     @PatchMapping("/{orderId}/status")
-    public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> updateOrderStatus(@PathVariable Integer orderId, @RequestBody UpdateOrderRequest updateOrderRequest) {
-        return success(HttpStatus.OK, "Success to update order status.", orderService.updateOrder(orderId, updateOrderRequest.getOrderStatus()));
+    public ResponseEntity<ApiUtils.SuccessResponse<OrderDetailResponse>> updateOrderStatus(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                                           @PathVariable Integer orderId,
+                                                                                           @RequestBody UpdateOrderRequest updateOrderRequest) {
+        Integer userId = userDetails.getUserId();
+        return success(HttpStatus.OK, "Success to update order status.", orderService.updateOrder(userId, orderId, updateOrderRequest.getOrderStatus()));
     }
     
     private Links createLinks(Page<OrderDetailResponse> page, HttpServletRequest request) {

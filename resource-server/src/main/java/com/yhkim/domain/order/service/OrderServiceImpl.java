@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
         
         // 자기 주문이 아닌 경우
-        validateOrderOwnership(orderId, userId);
+        validateOrderOwnership(order.getOrderUserId(), userId);
         
         // 이미 취소된 경우
         if (order.getDeletedAt() != null) {
@@ -86,8 +86,11 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     @Transactional
-    public OrderDetailResponse updateOrder(Integer orderId, OrderStatus newOrderStatus) {
+    public OrderDetailResponse updateOrder(Integer userId, Integer orderId, OrderStatus newOrderStatus) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
+        
+        // 자기 주문이 아닌 경우
+        validateOrderOwnership(order.getOrderUserId(), userId);
         
         // 주문 타입에 따른 상태 유효성 검사
         if (!isMatchedOrderType(order.getOrderType(), newOrderStatus)) {
@@ -141,9 +144,9 @@ public class OrderServiceImpl implements OrderService {
     }
     
     
-    private void validateOrderOwnership(Integer orderId, Integer userId) {
-        log.info(orderId + " - " + userId);
-        if (!Objects.equals(orderId, userId)) {
+    private void validateOrderOwnership(Integer orderUserId, Integer userId) {
+        log.info("orderUserId {}, userId {}", orderUserId, userId);
+        if (!Objects.equals(orderUserId, userId)) {
             throw new CustomException(ErrorCode.ORDER_OWNERSHIP_MISMATCH);
         }
     }

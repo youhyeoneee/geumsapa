@@ -1,7 +1,10 @@
 package com.yhkim.domain.order.controller;
 
 import com.yhkim.domain.auth.CustomUserDetails;
-import com.yhkim.domain.order.dto.*;
+import com.yhkim.domain.order.dto.CreateOrderRequest;
+import com.yhkim.domain.order.dto.Links;
+import com.yhkim.domain.order.dto.OrderDetailResponse;
+import com.yhkim.domain.order.dto.UpdateOrderRequest;
 import com.yhkim.domain.order.service.OrderService;
 import com.yhkim.util.ApiUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,12 +39,13 @@ public class OrderController {
     }
     
     @GetMapping
-    public ResponseEntity<ApiUtils.SuccessLinksResponse<List<OrderDetailResponse>, Links>> getOrders(Pageable pageable,
-                                                                                                     @Valid @RequestBody GetOrderRequest getOrderRequest,
+    public ResponseEntity<ApiUtils.SuccessLinksResponse<List<OrderDetailResponse>, Links>> getOrders(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                                                     Pageable pageable,
                                                                                                      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                                                                      @RequestParam(required = false) String invoice,
                                                                                                      HttpServletRequest request) {
-        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, getOrderRequest.getUserId(), date, invoice);
+        Integer userId = userDetails.getUserId();
+        Page<OrderDetailResponse> ordersPage = orderService.getAllOrders(pageable, userId, date, invoice);
         Links links = createLinks(ordersPage, request);
         
         return successWithLinks(HttpStatus.OK, "Success to get orders.", ordersPage.getContent(), links);

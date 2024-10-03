@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ValidateTokenResponse {
-    Boolean validated;
+    @JsonProperty("is_valid")
+    Boolean isValid;
     @JsonProperty("user_id")
     Integer userId;
 }

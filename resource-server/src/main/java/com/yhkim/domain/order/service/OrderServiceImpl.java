@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     @Transactional
-    public OrderDetailResponse createOrder(CreateOrderRequest createOrderRequest) {
+    public OrderDetailResponse createOrder(Integer userId, CreateOrderRequest createOrderRequest) {
         
         // 상품
         Product product = productRepository.findById(createOrderRequest.getProductId())
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
         // getPricePerCentigramme = 1 센티그램별 가격
         Integer totalPrice = productPrice.getPricePerCentigramme() * createOrderRequest.getQuantity().multiply(new BigDecimal("100")).intValue();
         
-        Order order = createOrderRequest.toEntity(product, totalPrice);
+        Order order = createOrderRequest.toEntity(userId, product, totalPrice);
         Order savedOrder = orderRepository.save(order);
         
         // 저장된 주문의 ID를 이용하여 주문번호 생성

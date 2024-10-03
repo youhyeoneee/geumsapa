@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public interface OrderService {
     
-    OrderDetailResponse createOrder(CreateOrderRequest createOrderRequest);
+    OrderDetailResponse createOrder(Integer userId, CreateOrderRequest createOrderRequest);
     
     OrderDetailResponse cancelOrder(Integer orderId);
     

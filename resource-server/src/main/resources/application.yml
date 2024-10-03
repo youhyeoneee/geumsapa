@@ -27,4 +27,8 @@ spring:
       mode: always
 
 server:
-  port: 8081
+  port: 9999
+
+grpc:
+  server:
+    port: 50052

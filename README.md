@@ -16,13 +16,13 @@
 
 ## 프로젝트 환경
 
-| Stack                                                                                                        | Version           |
-|:------------------------------------------------------------------------------------------------------------:|:-----------------:|
-| ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) | Spring Boot 3.3.3 |
-| ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)    | Gradle 8.8       |
-| ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)    | JDK 17           |
-| ![MariaDB](https://img.shields.io/badge/mariadb-%2300A3E0.svg?style=for-the-badge&logo=mariadb&logoColor=white) | MariaDB 11.5.2 |
-| ![Docker](https://img.shields.io/badge/docker-%23296AAB.svg?style=for-the-badge&logo=docker&logoColor=white)    | Docker 27.2.0   |
+|                                                             Stack                                                              |        Version        |
+|:------------------------------------------------------------------------------------------------------------------------------:|:---------------------:|
+|          ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)          |   Spring Boot 3.3.3   |
+|           ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)            |      Gradle 8.8       |
+|           ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)            |        JDK 17         |
+|        ![MariaDB](https://img.shields.io/badge/mariadb-%2300A3E0.svg?style=for-the-badge&logo=mariadb&logoColor=white)         |    MariaDB 11.5.2     |
+|          ![Docker](https://img.shields.io/badge/docker-%23296AAB.svg?style=for-the-badge&logo=docker&logoColor=white)          |     Docker 27.2.0     |
 | ![Docker Compose](https://img.shields.io/badge/docker%20compose-%2318A9D0.svg?style=for-the-badge&logo=docker&logoColor=white) | Docker Compose 2.29.2 |
 
 ## Quick Start
@@ -48,7 +48,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
 
 서버별로 터미널을 열어 다음 명령어를 실행합니다.
 
-- 인증 서버 (포트 8080)
+- 인증 서버 (포트 8888)
 
     ```shell
     ./gradlew :auth-server:bootJar
@@ -58,7 +58,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
     java -jar ./auth-server/build/libs/auth-server-0.0.1-SNAPSHOT.jar
     ```
 
-- 자원 서버 (포트 8081)
+- 자원 서버 (포트 9999)
 
     ```shell
     ./gradlew :resource-server:bootJar
@@ -74,17 +74,17 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
 
 서버를 종료하려면 터미널에서 다음 명령어를 실행합니다.
 
-- 인증 서버 (포트 8080)
+- 인증 서버 (포트 8888)
 
     ```shell
-    sudo lsof -i :8080
+    sudo lsof -i :8888
     sudo kill -9 [PID] # [PID]는 실제 프로세스 ID로 대체
     ```
 
-- 자원 서버 (포트 8081)
+- 자원 서버 (포트 9999)
 
     ```shell
-    sudo lsof -i :8081
+    sudo lsof -i :9999
     sudo kill -9 [PID] # [PID]는 실제 프로세스 ID로 대체
     ```
 
@@ -97,9 +97,7 @@ docker-compose -f ./auth-server/docker-compose.auth.yml down
 docker-compose -f ./resource-server/docker-compose.resource.yml down
 ```
 
-
 ## ERD
-
 
 <img width=70% alt="image" src="https://github.com/user-attachments/assets/3b18ae47-5266-43cd-aa6e-be77f3cdcf93">
 
@@ -107,7 +105,6 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 - [ERD 변경 기록](https://github.com/youhyeoneee/geumsapa/wiki/ERD-%EA%B8%B0%EB%A1%9D) 에서 ERD의 변화 히스토리를 확인할 수 있습니다.
 
 ## API 명세서
-
 
 <img width=70% alt="image" src="https://github.com/user-attachments/assets/feb61d96-2cf4-45f4-b192-effb6da9a036">
 
@@ -120,16 +117,16 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 
 ### 1. 멀티 모듈
 
-이 프로젝트는 멀티 모듈로 구성되어 있습니다. 
+이 프로젝트는 멀티 모듈로 구성되어 있습니다.
 
 - auth-server : 인증을 담당하는 서버입니다.
 - resource-server : 자원을 담당하는 서버입니다.
-- core : 에러코드, 공통 리스폰스, JpaConfig 설정 등 두 서버의 공통적인 부분을 담당하는 모듈입니다. 
+- core : 에러코드, 공통 리스폰스, JpaConfig 설정 등 두 서버의 공통적인 부분을 담당하는 모듈입니다.
 
 <details>
 <summary><strong>구조도</strong></summary>
 <div markdown="1">
-  
+
 ```
 .
 ├── README.md
@@ -172,12 +169,12 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 - entity: DB 테이블과 매칭되는 엔티티 클래스를 관리합니다. 공통적으로 사용하는 컬럼을 BaseEntity로 구성하였습니다.
 - exception: 사용자 정의 예외 클래스를 관리하고 전역으로 예외를 처리합니다.
 - util: 공통적으로 사용하는 유틸리티 클래스를 관리합니다. ApiUtils를 통해 공통적인 API 응답 형식을 제공합니다.
-<br/>
+  <br/>
 
 <details>
 <summary><strong>core 구조도</strong></summary>
 <div markdown="1">
-  
+
 ```
 .core
 └── src
@@ -201,6 +198,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
         ├── java
         └── resources
 ```
+
 </details>
 
 <br/>
@@ -229,7 +227,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 <details>
 <summary><strong>auth-server 구조도</strong></summary>
 <div markdown="1">
-    
+
 ```
 .auth-server
 ├── docker-compose.auth.yml
@@ -285,6 +283,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
         ├── java
         └── resources
 ```
+
 </details>
 
 <br/>
@@ -293,10 +292,10 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 
 자원을 담당하는 서버입니다.
 
-<b>도메인</b> 
+<b>도메인</b>
 <br/>
 
-- order: 주문 관련 기능 
+- order: 주문 관련 기능
 - product: 상품 관련 기능
 
 <br/>
@@ -311,7 +310,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 <details>
 <summary><strong>resource-server 구조도</strong></summary>
 <div markdown="1">
-    
+
 ```
 .resource-server
 ├── docker-compose.resource.yml
@@ -359,6 +358,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
         ├── java
         └── resources
 ```
+
 </details>
 
 <br/>

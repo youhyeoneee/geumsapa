@@ -21,11 +21,6 @@ public class CreateOrderRequest {
     @NotNull(message = "Invalid order type format.")
     private OrderType orderType;
     
-    // TODO: gRPC 이용하여 변경
-    @NotNull(message = "User Id is required.")
-    @Min(value = 1, message = "User Id must be 1 and greater.")
-    private Integer userId;
-    
     @NotNull(message = "Product Id is required.")
     @Min(value = 1, message = "Product Id must be 1 and greater.")
     private Integer productId;
@@ -39,7 +34,7 @@ public class CreateOrderRequest {
             message = "Quantity must have at most 2 decimal places.")
     private BigDecimal quantity;
     
-    public Order toEntity(Product product, Integer totalPrice) {
+    public Order toEntity(Integer userId, Product product, Integer totalPrice) {
         return Order.builder()
                 .orderType(orderType)
                 .orderUserId(userId)

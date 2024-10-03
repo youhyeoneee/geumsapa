@@ -5,4 +5,7 @@ import com.yhkim.domain.auth.dto.ReissueTokenResponse;
 public interface AuthService {
     
     ReissueTokenResponse refresh(String refreshToken);
+    
+    String validateToken(String Token);
+    
 }

@@ -10,11 +10,11 @@ import java.time.LocalDate;
 
 public interface OrderService {
     
-    OrderDetailResponse createOrder(CreateOrderRequest createOrderRequest);
+    OrderDetailResponse createOrder(Integer userId, CreateOrderRequest createOrderRequest);
     
-    OrderDetailResponse cancelOrder(Integer orderId);
+    OrderDetailResponse cancelOrder(Integer userId, Integer orderId);
     
-    OrderDetailResponse updateOrder(Integer orderId, OrderStatus orderStatus);
+    OrderDetailResponse updateOrder(Integer userId, Integer orderId, OrderStatus orderStatus);
     
     Page<OrderDetailResponse> getAllOrders(Pageable pageable, Integer userId, LocalDate date, String invoice);
 }

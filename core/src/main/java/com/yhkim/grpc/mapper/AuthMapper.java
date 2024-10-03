@@ -1,4 +1,4 @@
-package com.yhkim.domain.auth.mapper;
+package com.yhkim.grpc.mapper;
 
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.dto.ValidateTokenRequest;

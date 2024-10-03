@@ -1,4 +1,4 @@
-package com.yhkim.domain.grpc.client;
+package com.yhkim.domain.auth.grpc.client;
 
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.auth.AuthServiceGrpc;

@@ -15,6 +15,6 @@ message ValidateTokenRequest {
 
 // 멤버 생성 응답
 message ValidateTokenResponse {
-  bool validated = 1;
+  bool is_valid = 1;
   int64 user_id = 2;
 }

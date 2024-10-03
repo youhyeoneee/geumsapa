@@ -4,6 +4,7 @@ import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.auth.AuthServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@Slf4j
 public class GrpcAuthClient {
     private final AuthServiceGrpc.AuthServiceBlockingStub blockingStub;
     
@@ -30,8 +32,18 @@ public class GrpcAuthClient {
      * @param request
      * @return
      */
-    public AuthProto.ValidateTokenResponse validate(AuthProto.ValidateTokenRequest request) {
-        return blockingStub.validateToken(request);
+    public AuthProto.ValidateTokenResponse validate(String token) {
+        AuthProto.ValidateTokenRequest request = AuthProto.ValidateTokenRequest.newBuilder().setToken(token).build();
+        
+        log.info("Created request: {}", request);
+        try {
+            AuthProto.ValidateTokenResponse response = blockingStub.validateToken(request);
+            log.info("Received response: {}", response);
+            return response;
+        } catch (Exception e) {
+            log.error("Error during gRPC call", e);
+            throw e;
+        }
     }
     
 }

@@ -1,12 +1,14 @@
 package com.yhkim.domain.auth.service;
 
-import com.yhkim.domain.auth.mapper.AuthMapper;
 import com.yhkim.domain.user.entity.User;
 import com.yhkim.domain.user.service.UserService;
+import com.yhkim.exception.CustomException;
+import com.yhkim.exception.ErrorCode;
 import com.yhkim.grpc.auth.AuthProto;
 import com.yhkim.grpc.auth.AuthServiceGrpc;
 import com.yhkim.grpc.dto.ValidateTokenRequest;
 import com.yhkim.grpc.dto.ValidateTokenResponse;
+import com.yhkim.grpc.mapper.AuthMapper;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +37,22 @@ public class AuthServiceGrpcImpl extends AuthServiceGrpc.AuthServiceImplBase {
         } catch (Exception e) {
             log.error("Error on validateToken : {}", e.getMessage());
         }
-        User user = userService.findByUsername(username);
         
         boolean isValid = false;
         Integer userId = null;
         
-        if (user != null) {
-            isValid = true;
-            userId = user.getId();
+        try {
+            User user = userService.findByUsername(username);
+            if (user != null) {
+                isValid = true;
+                userId = user.getId();
+            }
+        } catch (CustomException e) {
+            if (e.errorCode.equals(ErrorCode.USERNAME_NOT_FOUND)) {
+                log.error("username not found. (username : {})", username);
+            } else {
+                throw e;
+            }
         }
         
         ValidateTokenResponse validateTokenResponse = ValidateTokenResponse.builder().isValid(isValid).userId(userId).build();

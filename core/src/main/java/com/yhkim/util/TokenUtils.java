@@ -18,6 +18,8 @@ public class TokenUtils {
     public static String resolveToken(HttpServletRequest request) {
         
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info("bearerToken : {}", bearerToken);
+        
         return resolveTokenFromBearerToken(bearerToken);
     }
     
@@ -28,8 +30,6 @@ public class TokenUtils {
      * @return
      */
     private static String resolveTokenFromBearerToken(String bearerToken) {
-        log.info("token : {}", bearerToken);
-        
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(TOKEN_PREFIX.length());
         }

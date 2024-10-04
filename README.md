@@ -378,5 +378,3 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
 | 주문 취소           | 완료    |
 | 주문 상태 수정        | 완료    |
 | 주문 조회           | 일부 구현 |
-
-*GRPC 통신 미완료

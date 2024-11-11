@@ -1,21 +1,22 @@
 package com.yhkim.domain.auth.entity;
 
 
-import com.yhkim.entity.BaseEntity;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshToken extends BaseEntity {
+@RedisHash(value = "refresh-token", timeToLive = 30 * 24 * 60 * 60 * 1000L)
+public class RefreshToken {
     
+    @Id
     @Column(unique = true, nullable = false)
     private String username;
     

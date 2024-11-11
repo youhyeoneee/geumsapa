@@ -20,12 +20,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
 
+  data:
+    redis:
+      host: localhost
+      port: ${REDIS_PORT}
+
 server:
   port: 8888
 
 grpc:
   server:
     port: 50051
-    
+
 jwt:
   secret: ${JWT_SECRET}

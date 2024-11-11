@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
             log.info("username : {}", username);
             
             // refresh Token이 DB에 없다면
-            RefreshToken obj = refreshTokenRepository.findByUsername(username).orElseThrow(() -> new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+            RefreshToken obj = refreshTokenRepository.findById(username).orElseThrow(() -> new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
             
             // 깉지 않을 경우
             if (!obj.getToken().equals(refreshToken)) {

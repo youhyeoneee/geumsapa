@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         JwtTokenInfo refreshTokenInfo = jwtTokenProvider.generateToken(user.getUsername(), TokenType.REFRESH_TOKEN);
         
         // refresh 토큰 DB에 upsert
-        Optional<RefreshToken> savedRefreshToken = refreshTokenRepository.findByUsername(user.getUsername());
+        Optional<RefreshToken> savedRefreshToken = refreshTokenRepository.findById(user.getUsername());
         
         if (savedRefreshToken.isEmpty()) {
             RefreshToken obj = RefreshToken.builder()

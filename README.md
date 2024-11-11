@@ -25,7 +25,11 @@
 |          ![Docker](https://img.shields.io/badge/docker-%23296AAB.svg?style=for-the-badge&logo=docker&logoColor=white)          |     Docker 27.2.0     |
 | ![Docker Compose](https://img.shields.io/badge/docker%20compose-%2318A9D0.svg?style=for-the-badge&logo=docker&logoColor=white) | Docker Compose 2.29.2 |
 
-## Quick Start
+## Quick Start & Stop
+
+<details>
+<summary><strong>Quick Start</strong></summary>
+<div markdown="1">
 
 ### 1. 사전 준비 사항
 
@@ -68,7 +72,11 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
     java -jar ./resource-server/build/libs/resource-server-0.0.1-SNAPSHOT.jar
     ```
 
-## Quick Stop
+</details>
+
+<details>
+<summary><strong>Quick Stop</strong></summary>
+<div markdown="1">
 
 ### 1. 서버 종료
 
@@ -96,6 +104,8 @@ docker-compose -f ./resource-server/docker-compose.resource.yml up -d
 docker-compose -f ./auth-server/docker-compose.auth.yml down
 docker-compose -f ./resource-server/docker-compose.resource.yml down
 ```
+
+</details>
 
 ## ERD
 

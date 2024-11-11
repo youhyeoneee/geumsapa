@@ -21,6 +21,7 @@
 |           ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)            |      Gradle 8.8       |
 |           ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)            |        JDK 17         |
 |        ![MariaDB](https://img.shields.io/badge/mariadb-%2300A3E0.svg?style=for-the-badge&logo=mariadb&logoColor=white)         |    MariaDB 11.5.2     |
+|        ![Redis](https://img.shields.io/badge/redis-%23D82C20.svg?style=for-the-badge&logo=redis&logoColor=white)         |    Redis 7.4.0     |
 |          ![Docker](https://img.shields.io/badge/docker-%23296AAB.svg?style=for-the-badge&logo=docker&logoColor=white)          |     Docker 27.2.0     |
 | ![Docker Compose](https://img.shields.io/badge/docker%20compose-%2318A9D0.svg?style=for-the-badge&logo=docker&logoColor=white) | Docker Compose 2.29.2 |
 
@@ -243,6 +244,7 @@ docker-compose -f ./resource-server/docker-compose.resource.yml down
     │   │               │   ├── TokenType.java
     │   │               │   ├── UserDetailsImpl.java
     │   │               │   ├── config
+    │   │               │   │   ├── RedisConfig.java
     │   │               │   │   └── WebSecurityConfig.java
     │   │               │   ├── controller
     │   │               │   │   └── AuthController.java
